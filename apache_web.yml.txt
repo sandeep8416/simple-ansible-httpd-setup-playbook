@@ -1,0 +1,21 @@
+---
+- hosts: ec2_instances
+  tasks:
+    - name: Install httpd package
+      package:
+        name: httpd
+        state: present
+      become: yes
+
+    - name: Copy docu.html to /var/www/html/
+      copy:
+        src: /home/sandeep/docu.html
+        dest: /var/www/html/docum.html
+        state: present
+      become: yes  # This task requires elevated privileges
+
+    - name: Ensure httpd service is started
+      service:
+        name: httpd
+        state: started
+      become: yes
